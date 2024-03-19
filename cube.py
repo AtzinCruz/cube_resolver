@@ -67,7 +67,7 @@ class Cube:
     
     def movement_l(self):
         self.cubo[2] = self.rotar_contra_reloj(self.cubo[2])
-        movements = [1, 5, 0, 3]
+        movements = [0, 5, 1, 3]
         aux = [self.cubo[movements[0]][j][0] for j in range(3)]  # Corregido el rango
         for i in range(3):
             for j in range(3):  # Cambiado a rango(3) para evitar errores de índice
@@ -116,6 +116,7 @@ def imprimir_cubo(cubo):
 # Imprimir el cubo
 cubo = Cube()
 imprimir_cubo(cubo.cubo)
-cubo.move('F')
-cubo.move('U')
+cubo.move('L')
+cubo.move('R')
+print('After movements:')
 imprimir_cubo(cubo.cubo)
