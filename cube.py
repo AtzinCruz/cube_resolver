@@ -119,10 +119,11 @@ class Cube:
         for i in range(3):
             self.cubo[movements[0]][i][0] = self.cubo[movements[1]][2][i]
         for i in range(3):
-            self.cubo[movements[1]][2][i] = self.cubo[movements[2]][i][2]
+            self.cubo[movements[1]][2][i] = self.cubo[movements[2]][2 -i][2]
         for i in range(3):
             self.cubo[movements[2]][i][2] = self.cubo[movements[3]][0][i]
         for i in range(3):
+            aux = aux[::-1]
             self.cubo[movements[3]][0][i] = aux[i]
     
     def movement_b(self):
@@ -132,96 +133,24 @@ class Cube:
         for i in range(3):
             self.cubo[movements[0]][2][i] = self.cubo[movements[1]][i][0]
         for i in range(3):
-            self.cubo[movements[1]][i][0] = self.cubo[movements[2]][0][i]
+            self.cubo[movements[1]][i][0] = self.cubo[movements[2]][0][2 - i]
         for i in range(3):
             self.cubo[movements[2]][0][i] = self.cubo[movements[3]][i][2]
         for i in range(3):
+            aux = aux[::-1]
             self.cubo[movements[3]][i][2] = aux[i]
         
 
     
-    def manhattan_distance(self):
-        distance = 0
-        # Define la configuración deseada para cada cara del cubo
-        desired_configurations = [
-            [[1, 1, 1], [1, 1, 1], [1, 1, 1]],  # Amarillo
-            [[2, 2, 2], [2, 2, 2], [2, 2, 2]],  # Blanco
-            [[3, 3, 3], [3, 3, 3], [3, 3, 3]],  # Naranja
-            [[4, 4, 4], [4, 4, 4], [4, 4, 4]],  # Azul
-            [[5, 5, 5], [5, 5, 5], [5, 5, 5]],  # Rojo
-            [[6, 6, 6], [6, 6, 6], [6, 6, 6]]   # Verde
-        ]
+class Solver:
+    def __init__(self):
+        self.pattern = {
+            1 : [[0, 2, 0],
+                 [2, 2, 2],
+                 [0, 2, 0]],
+            2: []
+        }
 
-        # Calcula la distancia de Manhattan para cada cara del cubo
-        for current_face, desired_face in zip(self.cubo, desired_configurations):
-            for i in range(3):
-                for j in range(3):
-                    if current_face[i][j] != desired_face[i][j]:
-                        distance += abs(i - 1) + abs(j - 1)  # Suma las distancias horizontales y verticales
-    
-        return distance
-
-    def solve_bfs(self):
-        # Definir la representación de un estado del cubo
-        class CubeState:
-            def __init__(self, cube, moves=[], move_count=0):
-                self.cube = cube
-                self.moves = moves
-                self.move_count = move_count
-
-            def __lt__(self, other):
-                return self.move_count < other.move_count
-
-        # Cola para almacenar los estados del cubo que se van explorando
-        priority_queue = []
-
-        # Conjunto para almacenar los estados del cubo ya visitados
-        visited = set()
-
-        # Movimientos permitidos
-        moves = list(self.movements.keys())
-
-        # Estado inicial del cubo
-        initial_state = CubeState(self, [], 0)
-
-        # Agregar el estado inicial a la cola
-        heappush(priority_queue, initial_state)
-
-        while priority_queue:
-            current_state = heappop(priority_queue)
-            current_cube = current_state.cube
-
-            # Comprobar si el estado actual es el estado objetivo
-            if current_cube.cubo == self.cubo_resuelto:
-                print("Solución encontrada en {} movimientos:".format(len(current_state.moves)))
-                for move in current_state.moves:
-                    print(move)
-                return
-
-            # Marcar el estado actual como visitado
-            visited.add(str(current_cube.cubo))
-
-            # Si el estado actual no es el objetivo, generar los siguientes estados posibles
-            for move in moves:
-                new_cube = Cube()  # Crear un nuevo objeto Cube
-                new_cube.cubo = [list(face) for face in current_cube.cubo]  # Copiar las caras del cubo
-                new_moves = current_state.moves + [move]
-
-                # Realizar el movimiento en el nuevo estado
-                new_cube.move(move)
-
-                # Verificar si se han realizado más de 3 movimientos consecutivos
-                if len(new_moves) > 3 and new_moves[-3:] == [move] * 3:
-                    continue
-
-                # Crear un nuevo estado
-                new_state = CubeState(new_cube, new_moves, current_state.move_count + 1)
-
-                # Comprobar si el nuevo estado ya ha sido visitado
-                if str(new_state.cube.cubo) not in visited:
-                    heappush(priority_queue, new_state)
-
-        print("No se encontró solución.")
 
 # Función para imprimir el cubo
 def imprimir_cubo(cubo):
@@ -231,19 +160,24 @@ def imprimir_cubo(cubo):
         print()
 
 
-def revolver_igual(cubo):
+def revolver_igual(cubo, movement_a, movement_b):
     for i in range(6):
-        cubo.move_manual('U')
-        cubo.move_manual('U')
-        cubo.move_manual('U')
-        cubo.move_manual('R')
-        cubo.move_manual('U')
-        cubo.move_manual('R')
-        cubo.move_manual('R')
-        cubo.move_manual('R')
+        print(f"Movimiento numero:{i + 1}")
+        cubo.move_manual(movement_a)
+        cubo.move_manual(movement_a)
+        cubo.move_manual(movement_a)
+        cubo.move_manual(movement_b)
+        cubo.move_manual(movement_a)
+        cubo.move_manual(movement_b)
+        cubo.move_manual(movement_b)
+        cubo.move_manual(movement_b)
+        imprimir_cubo(cubo.cubo)
+
 # Imprimir el cubo
 cubo = Cube()
 imprimir_cubo(cubo.cubo)
-revolver_igual(cubo)
+print('After movements:')
+imprimir_cubo(cubo.cubo)
+revolver_igual(cubo, 'F', 'D')
 print('After movements:')
 imprimir_cubo(cubo.cubo)
