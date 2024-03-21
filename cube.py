@@ -1,6 +1,11 @@
 from collections import deque
 import copy
-from heapq import heappop, heappush
+import random
+
+class Node:
+    def __init__(self, cube):
+        self.cube = cube
+        self.path = []
 
 class Cube:
     def __init__(self):
@@ -48,22 +53,10 @@ class Cube:
             self.movements[mov]()
         else:
             print("Movimiento no disponible")
-    
+
     def move(self, mov):
         if mov in self.movements:
-            # Verificar si el movimiento actual es el mismo que el último movimiento
-            if mov == self.last_move:
-                self.last_move_count += 1
-                if self.last_move_count >= 3:
-                    print("Se ha realizado el mismo movimiento {} veces consecutivas. No se puede realizar más.".format(self.last_move_count))
-                    return
-            else:
-                self.last_move = mov
-                self.last_move_count = 1
-
             self.movements[mov]()
-        else:
-            print("Movimiento no disponible")
     
     @staticmethod
     def rotar_contra_reloj(matriz):
@@ -139,21 +132,44 @@ class Cube:
         for i in range(3):
             aux = aux[::-1]
             self.cubo[movements[3]][i][2] = aux[i]
-        
-
     
+
 class Solver:
-    def __init__(self, cubo):
-        self.cubo = cubo
+    def __init__(self, cube):
+        self.cube = cube
 
+    def bfs(self):
+        cube = self.cube
+        start_node = Node(copy.deepcopy(cube.cubo))
+        goal_node = Node(copy.deepcopy(cube.cubo_resuelto))
+        visited = set()
+        queue = deque([start_node])
 
-# Función para imprimir el cubo
+        while queue:
+            current_node = queue.popleft()
+            if current_node.cube == goal_node.cube:
+                return True, current_node.path
+
+            visited.add(current_node)
+
+            for move in cube.movements.keys():
+                new_cube_state = copy.deepcopy(current_node.cube)
+                cube.cubo = new_cube_state
+                cube.move(move)
+                neighbor_node = Node(cube.cubo)
+                neighbor_node.path = current_node.path + [move]
+
+                if neighbor_node not in visited:
+                    queue.append(neighbor_node)
+                    visited.add(neighbor_node)
+
+        return False
+
 def imprimir_cubo(cubo):
     for lado in cubo:
         for fila in lado:
             print(fila)
         print()
-
 
 def revolver_igual(cubo, movement_a, movement_b):
     for i in range(6):
@@ -168,11 +184,26 @@ def revolver_igual(cubo, movement_a, movement_b):
         cubo.move_manual(movement_b)
         imprimir_cubo(cubo.cubo)
 
+def shuffle_cube(cube, num_moves=20):
+    moves = []
+    valid_moves = cube.movements.keys()
+    for _ in range(num_moves):
+        move = random.choice(list(valid_moves))
+        cube.move(move)
+        moves += move
+    return moves
+
+
 # Imprimir el cubo
 cubo = Cube()
 imprimir_cubo(cubo.cubo)
+print(shuffle_cube(cubo, 2))
 print('After movements:')
 imprimir_cubo(cubo.cubo)
-revolver_igual(cubo, 'F', 'D')
-print('After movements:')
-imprimir_cubo(cubo.cubo)
+solver = Solver(cubo)
+flag, path = solver.bfs()
+if(flag):
+    print('Se ha encontrado solución')
+    print(f'Camino: {path}')
+else:
+    print('No se ha encontrado solución')
