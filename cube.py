@@ -143,13 +143,8 @@ class Cube:
 
     
 class Solver:
-    def __init__(self):
-        self.pattern = {
-            1 : [[0, 2, 0],
-                 [2, 2, 2],
-                 [0, 2, 0]],
-            2: []
-        }
+    def __init__(self, cubo):
+        self.cubo = cubo
 
 
 # Función para imprimir el cubo
