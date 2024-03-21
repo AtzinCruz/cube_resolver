@@ -3,24 +3,14 @@ from cube import Cube
 from solvers import Solver
 from heuristics import Heuristics
 
+#Print cube in matrix form
 def imprimir_cubo(cubo):
     for lado in cubo:
         for fila in lado:
             print(fila)
         print()
-
-def revolver_igual(cubo, movement_a, movement_b):
-    for i in range(6):
-        print(f"Movimiento numero:{i + 1}")
-        cubo.move_manual(movement_a)
-        cubo.move_manual(movement_a)
-        cubo.move_manual(movement_a)
-        cubo.move_manual(movement_b)
-        cubo.move_manual(movement_a)
-        cubo.move_manual(movement_b)
-        cubo.move_manual(movement_b)
-        cubo.move_manual(movement_b)
-        imprimir_cubo(cubo.cubo)
+    
+#Random suffhle
 
 def shuffle_cube(cube, num_moves=20):
     moves = []

@@ -1,7 +1,10 @@
+#Basic Nodes
 class Node:
     def __init__(self, cube):
         self.cube = cube
         self.path = []
+
+#Nodes with heuristic value
 
 class Nodeh:
     def __init__(self, cube):

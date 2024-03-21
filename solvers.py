@@ -7,6 +7,8 @@ class Solver:
     def __init__(self, cube):
         self.cube = cube
 
+    
+    #BFS without heuristic
     def bfs(self):
         cube = self.cube
         start_node = Node(copy.deepcopy(cube.cubo))
@@ -34,6 +36,7 @@ class Solver:
 
         return False
     
+    #BFS with heuristcs
     def bfs_h(self, heuristic):
         cube = self.cube
         start_node = Nodeh(copy.deepcopy(cube.cubo))

@@ -27,7 +27,7 @@ class Cube:
              [6, 6, 6], 
              [6, 6, 6]]   # Lado 6 - Verde
         ]
-        #Minuscula significa movimiento primo, Mayuscula significa al sentido del reloj
+        #low letter means movement the anti movement, High letter mean the normal movement
 
         self.cubo_resuelto = copy.deepcopy(self.cubo)
         self.movements = {
@@ -58,21 +58,12 @@ class Cube:
     
     @staticmethod
     def rotar_contra_reloj(matriz):
-        # Intercambiar filas
+        #Switch rows
         matriz = matriz[::-1]
-        # Transponer la matriz
-        matriz_rotada = [list(x) for x in zip(*matriz)]
-        return matriz_rotada
-    
-    @staticmethod
-    def rotar_reloj(matriz):
-        # Invertir las columnas de la matriz
-        matriz = [fila[::-1] for fila in matriz]
-        # Transponer la matriz
         matriz_rotada = [list(x) for x in zip(*matriz)]
         return matriz_rotada
 
-    # Movimientos donde se centrará todo será en el azul - con la cara amarilla arriba
+    # The principal face is the blue and the high face is yellow
     def movement_u(self):
         self.cubo[0] = self.rotar_contra_reloj(self.cubo[0])
         movements = [2, 3, 4, 5]
@@ -102,11 +93,11 @@ class Cube:
     def movement_l(self):
         self.cubo[2] = self.rotar_contra_reloj(self.cubo[2])
         movements = [0, 5, 1, 3]
-        aux = [self.cubo[movements[0]][j][0] for j in range(3)]  # Corregido el rango
+        aux = [self.cubo[movements[0]][j][0] for j in range(3)]  
         for i in range(3):
-            for j in range(3):  # Cambiado a rango(3) para evitar errores de índice
+            for j in range(3):  
                 self.cubo[movements[i]][j][0] = self.cubo[movements[i + 1]][j][0]
-        for j in range(3):  # Cambiado a rango(3) para evitar errores de índice
+        for j in range(3):  
             self.cubo[movements[3]][j][0] = aux[j]
 
     def movement_lp(self):
@@ -116,11 +107,11 @@ class Cube:
     def movement_r(self):
         self.cubo[4] = self.rotar_contra_reloj(self.cubo[4])
         movements = [3, 1, 5 ,0]
-        aux = [self.cubo[movements[0]][j][2] for j in range(3)]  # Corregido el rango
+        aux = [self.cubo[movements[0]][j][2] for j in range(3)]  
         for i in range(3):
-            for j in range(3):  # Cambiado a rango(3) para evitar errores de índice
+            for j in range(3):  
                 self.cubo[movements[i]][j][2] = self.cubo[movements[i + 1]][j][2]
-        for j in range(3):  # Cambiado a rango(3) para evitar errores de índice
+        for j in range(3):  
             self.cubo[movements[3]][j][2] = aux[j]
     
     def movement_rp(self):
@@ -130,7 +121,7 @@ class Cube:
     def movement_f(self):
         self.cubo[3] = self.rotar_contra_reloj(self.cubo[3])
         movements = [4, 0, 2, 1]
-        aux = [self.cubo[movements[0]][j][0] for j in range(3)]  # Corregido el rango
+        aux = [self.cubo[movements[0]][j][0] for j in range(3)]  
         for i in range(3):
             self.cubo[movements[0]][i][0] = self.cubo[movements[1]][2][i]
         for i in range(3):
@@ -149,7 +140,7 @@ class Cube:
     def movement_b(self):
         self.cubo[5] = self.rotar_contra_reloj(self.cubo[5])
         movements = [1, 2, 0, 4]
-        aux = [self.cubo[movements[0]][2][j] for j in range(3)]  # Corregido el rango
+        aux = [self.cubo[movements[0]][2][j] for j in range(3)]  
         for i in range(3):
             self.cubo[movements[0]][2][i] = self.cubo[movements[1]][i][0]
         for i in range(3):
