@@ -54,6 +54,16 @@ class Cube:
         self.last_move = None
         self.last_move_count = 0
 
+        self.inverse_moves = {
+            'U': 'u', 'u': 'U',
+            'D': 'd', 'd': 'D',
+            'L': 'l', 'l': 'L',
+            'R': 'r', 'r': 'R',
+            'F': 'f', 'f': 'F',
+            'B': 'b', 'b': 'B'
+        }
+        self.last_move = None
+
 
     def move_manual(self, mov):
         if mov in self.movements:
@@ -92,13 +102,8 @@ class Cube:
         self.cubo[movements[3]][2] = aux
     
     def movement_up(self):
-        self.cubo[0] = self.rotar_reloj(self.cubo[0])
-        movements = [5, 4, 3, 2]
-        aux = self.cubo[movements[0]][2][::-1]
-        self.cubo[movements[0]][2] = self.cubo[movements[1]][0]
-        self.cubo[movements[1]][0] = self.cubo[movements[2]][0]
-        self.cubo[movements[2]][0] = self.cubo[movements[3]][0][::-1]
-        self.cubo[movements[3]][0] = aux
+        for _ in range(3):
+            self.movement_u()
     
     def movement_d(self):
         self.cubo[1] = self.rotar_contra_reloj(self.cubo[1])
@@ -110,13 +115,8 @@ class Cube:
         self.cubo[movements[3]][0] = aux
     
     def movement_dp(self):
-        self.cubo[1] = self.rotar_reloj(self.cubo[1])
-        movements = [5, 2, 3, 4]
-        aux = self.cubo[movements[0]][0][::-1]
-        self.cubo[movements[0]][0] = self.cubo[movements[1]][2]
-        self.cubo[movements[1]][2] = self.cubo[movements[2]][2]
-        self.cubo[movements[2]][2] = self.cubo[movements[3]][2][::-1]
-        self.cubo[movements[3]][2] = aux
+        for _ in range(3):
+            self.movement_d()
 
     def movement_l(self):
         self.cubo[2] = self.rotar_contra_reloj(self.cubo[2])
@@ -129,14 +129,8 @@ class Cube:
             self.cubo[movements[3]][j][0] = aux[j]
 
     def movement_lp(self):
-        self.cubo[2] = self.rotar_reloj(self.cubo[2])
-        movements = [3, 1, 5, 0]
-        aux = [self.cubo[movements[0]][j][0] for j in range(3)]  # Corregido el rango
-        for i in range(3):
-            for j in range(3):  # Cambiado a rango(3) para evitar errores de índice
-                self.cubo[movements[i]][j][0] = self.cubo[movements[i + 1]][j][0]
-        for j in range(3):  # Cambiado a rango(3) para evitar errores de índice
-            self.cubo[movements[3]][j][0] = aux[j]
+        for _ in range(3):
+            self.movement_l()
     
     def movement_r(self):
         self.cubo[4] = self.rotar_contra_reloj(self.cubo[4])
@@ -149,14 +143,8 @@ class Cube:
             self.cubo[movements[3]][j][2] = aux[j]
     
     def movement_rp(self):
-        self.cubo[4] = self.rotar_reloj(self.cubo[4])
-        movements = [0, 5, 1, 3]
-        aux = [self.cubo[movements[0]][j][2] for j in range(3)]  # Corregido el rango
-        for i in range(3):
-            for j in range(3):  # Cambiado a rango(3) para evitar errores de índice
-                self.cubo[movements[i]][j][2] = self.cubo[movements[i + 1]][j][2]
-        for j in range(3):  # Cambiado a rango(3) para evitar errores de índice
-            self.cubo[movements[3]][j][2] = aux[j]
+        for _ in range(3):
+            self.movement_r()
     
     def movement_f(self):
         self.cubo[3] = self.rotar_contra_reloj(self.cubo[3])
@@ -173,18 +161,8 @@ class Cube:
             self.cubo[movements[3]][0][i] = aux[i]
     
     def movement_fp(self):
-        self.cubo[3] = self.rotar_reloj(self.cubo[3])
-        movements = [4, 0, 2, 1] 
-        aux = [self.cubo[movements[3]][0][j] for j in range(3)]
-        for i in range(3):
-            self.cubo[movements[3]][0][i] = self.cubo[movements[2]][2][2 - i]  
-        for i in range(3):
-            self.cubo[movements[2]][i][2] = self.cubo[movements[1]][2][i]  
-        for i in range(3):
-            self.cubo[movements[1]][2][i] = self.cubo[movements[0]][i][0]  
-        for i in range(3):
-            aux = aux[::-1]
-            self.cubo[movements[0]][i][0] = aux[i]
+        for _ in range(3):
+            self.movement_f()
 
 
     def movement_b(self):
@@ -202,18 +180,8 @@ class Cube:
             self.cubo[movements[3]][i][2] = aux[i]
     
     def movement_bp(self):
-        self.cubo[5] = self.rotar_reloj(self.cubo[5])
-        movements = [1, 2, 0, 4]
-        aux = [self.cubo[movements[3]][j][2] for j in range(3)]  # Corregido el rango
-        for i in range(3):
-            self.cubo[movements[3]][i][2] = self.cubo[movements[2]][0][2 - i]
-        for i in range(3):
-            self.cubo[movements[2]][0][i] = self.cubo[movements[1]][i][0]
-        for i in range(3):
-            self.cubo[movements[1]][i][0] = self.cubo[movements[0]][2][i]
-        for i in range(3):
-            aux = aux[::-1]
-            self.cubo[movements[0]][2][i] = aux[i]
+        for _ in range(3):
+            self.movement_b()
 
     
 
@@ -277,15 +245,25 @@ def shuffle_cube(cube, num_moves=20):
     return moves
 
 
-cubo = Cube()
-imprimir_cubo(cubo.cubo)
-print(shuffle_cube(cubo, 4))
-print('After movements:')
-imprimir_cubo(cubo.cubo)
-solver = Solver(cubo)
-flag, path = solver.bfs()
-if(flag):
-    print(path)
-else:
-    print('No se ha encontrado solución')
+def caso_prueba1():
+    cubo = Cube()
+    imprimir_cubo(cubo.cubo)
+    cubo.move_manual('B')
+    cubo.move_manual('b')
+    print('After movements:')
+    imprimir_cubo(cubo.cubo)
 
+def caso_prueba2(mov):
+    cubo = Cube()
+    imprimir_cubo(cubo.cubo)
+    print(shuffle_cube(cubo, mov))
+    print('After movements:')
+    imprimir_cubo(cubo.cubo)
+    solver = Solver(cubo)
+    flag, path = solver.bfs()
+    if(flag):
+        print(path)
+    else:
+        print('No se ha encontrado solución')
+
+caso_prueba2(3)
