@@ -1,11 +1,4 @@
-from collections import deque
 import copy
-import random
-
-class Node:
-    def __init__(self, cube):
-        self.cube = cube
-        self.path = []
 
 class Cube:
     def __init__(self):
@@ -51,18 +44,6 @@ class Cube:
             'B' : self.movement_b,
             'b' : self.movement_bp
         }
-        self.last_move = None
-        self.last_move_count = 0
-
-        self.inverse_moves = {
-            'U': 'u', 'u': 'U',
-            'D': 'd', 'd': 'D',
-            'L': 'l', 'l': 'L',
-            'R': 'r', 'r': 'R',
-            'F': 'f', 'f': 'F',
-            'B': 'b', 'b': 'B'
-        }
-        self.last_move = None
 
 
     def move_manual(self, mov):
@@ -181,89 +162,4 @@ class Cube:
     
     def movement_bp(self):
         for _ in range(3):
-            self.movement_b()
-
-    
-
-class Solver:
-    def __init__(self, cube):
-        self.cube = cube
-
-    def bfs(self):
-        cube = self.cube
-        start_node = Node(copy.deepcopy(cube.cubo))
-        goal_node = Node(copy.deepcopy(cube.cubo_resuelto))
-        visited = set()
-        queue = deque([start_node])
-
-        while queue:
-            current_node = queue.popleft()
-            if current_node.cube == goal_node.cube:
-                return True, current_node.path
-
-            visited.add(current_node)
-
-            for move in cube.movements.keys():
-                new_cube_state = copy.deepcopy(current_node.cube)
-                cube.cubo = new_cube_state
-                cube.move(move)
-                neighbor_node = Node(cube.cubo)
-                neighbor_node.path = current_node.path + [move]
-
-                if neighbor_node not in visited:
-                    queue.append(neighbor_node)
-                    visited.add(neighbor_node)
-
-        return False
-
-def imprimir_cubo(cubo):
-    for lado in cubo:
-        for fila in lado:
-            print(fila)
-        print()
-
-def revolver_igual(cubo, movement_a, movement_b):
-    for i in range(6):
-        print(f"Movimiento numero:{i + 1}")
-        cubo.move_manual(movement_a)
-        cubo.move_manual(movement_a)
-        cubo.move_manual(movement_a)
-        cubo.move_manual(movement_b)
-        cubo.move_manual(movement_a)
-        cubo.move_manual(movement_b)
-        cubo.move_manual(movement_b)
-        cubo.move_manual(movement_b)
-        imprimir_cubo(cubo.cubo)
-
-def shuffle_cube(cube, num_moves=20):
-    moves = []
-    valid_moves = cube.movements.keys()
-    for _ in range(num_moves):
-        move = random.choice(list(valid_moves))
-        cube.move(move)
-        moves += move
-    return moves
-
-
-def caso_prueba1():
-    cubo = Cube()
-    imprimir_cubo(cubo.cubo)
-    cubo.move_manual('B')
-    cubo.move_manual('b')
-    print('After movements:')
-    imprimir_cubo(cubo.cubo)
-
-def caso_prueba2(mov):
-    cubo = Cube()
-    imprimir_cubo(cubo.cubo)
-    print(shuffle_cube(cubo, mov))
-    print('After movements:')
-    imprimir_cubo(cubo.cubo)
-    solver = Solver(cubo)
-    flag, path = solver.bfs()
-    if(flag):
-        print(path)
-    else:
-        print('No se ha encontrado solución')
-
-caso_prueba2(3)
+            self.movement_b()  
