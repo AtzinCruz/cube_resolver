@@ -22,3 +22,7 @@ class Heuristics:
                         distancia_cara += 1
             distancia_total += distancia_cara
         return distancia_total
+    
+    @staticmethod
+    def otherheuristic():
+        pass

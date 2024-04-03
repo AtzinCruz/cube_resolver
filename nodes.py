@@ -18,3 +18,11 @@ class Nodeh:
     
     def __lt__(self, other):
         return self.value_heuristic < other.value_heuristic
+    
+class NodeAStar(Nodeh):
+    def __init__(self, cube):
+        super(cube)
+        self.distance = 0
+
+    def __lt__(self, other):
+        return self.value_heuristic + self.distance < other.value + other.distance  
