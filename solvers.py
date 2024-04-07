@@ -1,10 +1,12 @@
 from collections import deque
 import copy
-from nodes import Nodeh, Node
+from nodes import Nodeh, Node, NodeAStar
 import heapq
+from queue import PriorityQueue
+from cube import Cube
 
 class Solver:
-    def __init__(self, cube):
+    def __init__(self, cube : Cube):
         self.cube = cube
 
     
@@ -64,3 +66,32 @@ class Solver:
                     heapq.heappush(priority_queue, (neighbor_node.value_heuristic, neighbor_node))
                     visited.add(neighbor_node)
         return False
+
+    def A_star(self, heuristic):
+        start_node = NodeAStar(copy.deepcopy(self.cube.cubo))
+        target_node_configuration = copy.deepcopy(self.cube.cubo_resuelto)
+        pq = PriorityQueue()
+        visited = set()
+        pq.put(start_node)
+
+        while not pq.empty():
+            current_cube : NodeAStar = pq.get()
+            if current_cube.cube == target_node_configuration:
+                return current_cube.path
+            
+            if current_cube in visited:
+                continue
+
+            visited.add(current_cube)
+            for move in self.cube.movements.keys():
+                next_cube = copy.deepcopy(current_cube.cube)
+                self.cube.cubo = next_cube
+                self.cube.move(move)
+                neighbor_node = NodeAStar(self.cube.cubo)  
+                neighbor_node.path = current_cube.path + [move]
+                neighbor_node.calculate_heuristic(heuristic)
+                neighbor_node.distance = current_cube.distance + 1
+                pq.put(neighbor_node)
+
+        return None
+            

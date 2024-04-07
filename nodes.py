@@ -18,11 +18,22 @@ class Nodeh:
     
     def __lt__(self, other):
         return self.value_heuristic < other.value_heuristic
+
+
     
 class NodeAStar(Nodeh):
     def __init__(self, cube):
-        super(cube)
+        super().__init__(cube)
         self.distance = 0
 
     def __lt__(self, other):
-        return self.value_heuristic + self.distance < other.value + other.distance  
+        return self.value_heuristic + self.distance < other.value_heuristic + other.distance  
+    
+    def __eq__(self, other):
+        return isinstance(other, NodeAStar) and self.cube == other.cube
+    
+    def __hash__(self) -> int:
+        cube_tuple = tuple(map(lambda x: tuple(map(tuple, x)), self.cube))
+        return hash(cube_tuple)
+    
+    

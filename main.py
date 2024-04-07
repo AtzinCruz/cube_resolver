@@ -56,4 +56,19 @@ def caso_prueba3(mov):
     else:
         print('No se ha encontrado solución')
 
-caso_prueba2(3)
+def caso_prueba4(mov):
+    heuristics = Heuristics.capas_resueltas
+    cubo = Cube()
+    imprimir_cubo(cubo.cubo)
+    print(shuffle_cube(cubo, mov))
+    print('After movements:')
+    imprimir_cubo(cubo.cubo)
+    solver = Solver(cubo)
+    path = solver.A_star(heuristics)
+    if path:
+        print(path)
+    else:
+        print("No solution")
+
+
+caso_prueba3(4)
