@@ -6,9 +6,11 @@ from queue import PriorityQueue
 from cube import Cube
 
 class Solver:
+
+    INF = float("inf")
+
     def __init__(self, cube : Cube):
         self.cube = cube
-
     
     #BFS without heuristic
     def bfs(self):
@@ -67,6 +69,7 @@ class Solver:
                     visited.add(neighbor_node)
         return False
 
+    #A star
     def A_star(self, heuristic):
         start_node = NodeAStar(copy.deepcopy(self.cube.cubo))
         target_node_configuration = copy.deepcopy(self.cube.cubo_resuelto)
@@ -94,4 +97,55 @@ class Solver:
                 pq.put(neighbor_node)
 
         return None
+    
+    #IDAStar
+    def iterative_deepening_A_star(self, heuristic):
+        start_node = NodeAStar(copy.deepcopy(self.cube.cubo))
+        end_configuration = self.cube.cubo_resuelto
+        start_node.calculate_heuristic(heuristic)
+        bound = start_node.value_heuristic
+        path = [start_node]
+        while True:
+            t = self.__search(path, 0, bound, heuristic, end_configuration)
+            if t == True:
+                return path, bound
+            if t == Solver.INF:
+                return None
+            bound = t
+
+            
+    def __search(self, path, g, bound, heuristic, end_configuration):
+        path_f = path
+        node: NodeAStar = path_f[-1]
+        node.calculate_heuristic(heuristic)
+        f = node.distance + node.value_heuristic
+        if f > bound:
+            return f
+        if node.cube == end_configuration:
+            return True
+        min = Solver.INF
+        for succ in self.__sucessors(node, heuristic):
+            if succ not in path:
+                path_f.append(succ)
+                t = self.__search(path, node.distance + node.value_heuristic + 1, bound, heuristic, end_configuration)
+                if t == True:
+                    return True
+                if t < min:
+                    min = t
+                path.pop()
+        return min
+        
+    def __sucessors(self, state, heuristic):
+        current_state = state
+        next_states = []
+        for move in self.cube.movements.keys():
+            next_cube = copy.deepcopy(current_state.cube)
+            self.cube.cubo = next_cube
+            self.cube.move(move)
+            neighbor_node = NodeAStar(self.cube.cubo)  
+            neighbor_node.path = current_state.path + [move]
+            neighbor_node.calculate_heuristic(heuristic)
+            neighbor_node.distance = current_state.distance + 1
+            next_states.append(neighbor_node)
+        return next_states
             
