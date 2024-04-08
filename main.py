@@ -79,11 +79,11 @@ def caso_prueba5(mov):
     print('After movements:')
     imprimir_cubo(cubo.cubo)
     solver = Solver(cubo)
-    path, _ = solver.iterative_deepening_A_star(heuristics)
+    path = solver.iterative_deepening_A_star(heuristics)
     if path:
         print(path)
     else:
         print("No solution")
 
 
-caso_prueba5(3)
+caso_prueba5(5)

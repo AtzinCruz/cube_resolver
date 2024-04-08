@@ -11,6 +11,7 @@ class Solver:
 
     def __init__(self, cube : Cube):
         self.cube = cube
+        self.path = []
     
     #BFS without heuristic
     def bfs(self):
@@ -108,7 +109,7 @@ class Solver:
         while True:
             t = self.__search(path, 0, bound, heuristic, end_configuration)
             if t == True:
-                return path, bound
+                return self.path
             if t == Solver.INF:
                 return None
             bound = t
@@ -122,6 +123,7 @@ class Solver:
         if f > bound:
             return f
         if node.cube == end_configuration:
+            self.path = node.path
             return True
         min = Solver.INF
         for succ in self.__sucessors(node, heuristic):
@@ -148,4 +150,3 @@ class Solver:
             neighbor_node.distance = current_state.distance + 1
             next_states.append(neighbor_node)
         return next_states
-            
