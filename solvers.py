@@ -42,13 +42,17 @@ class Solver:
         return False
     
     #BFS with heuristcs
+    import heapq
+
     def bfs_h(self, heuristic):
         cube = self.cube
         start_node = Nodeh(copy.deepcopy(cube.cubo))
         goal_node = Node(copy.deepcopy(cube.cubo_resuelto))
         visited = set()
         priority_queue = []
-        heapq.heappush(priority_queue, (start_node.value_heuristic, start_node))
+        
+        # Invertir el orden de los valores de heurística para que los mayores sean extraídos primero
+        heapq.heappush(priority_queue, (-start_node.value_heuristic, start_node))
 
         while priority_queue:
             current_node = heapq.heappop(priority_queue)[1]
@@ -66,9 +70,11 @@ class Solver:
                 neighbor_node.calculate_heuristic(heuristic)
 
                 if neighbor_node not in visited:
-                    heapq.heappush(priority_queue, (neighbor_node.value_heuristic, neighbor_node))
+                    # Invertir el signo de la heurística para que los mayores sean extraídos primero
+                    heapq.heappush(priority_queue, (-neighbor_node.value_heuristic, neighbor_node))
                     visited.add(neighbor_node)
         return False
+
 
     #A star
     def A_star(self, heuristic):
