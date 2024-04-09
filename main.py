@@ -43,7 +43,7 @@ def caso_prueba2(mov):
         print('No se ha encontrado solución')
 
 def caso_prueba3(mov):
-    heuristic = Heuristics.capas_resueltas
+    heuristic = Heuristics.bloques_correctos
     cubo = Cube()
     imprimir_cubo(cubo.cubo)
     print(shuffle_cube(cubo, mov))
@@ -86,4 +86,4 @@ def caso_prueba5(mov):
         print("No solution")
 
 
-caso_prueba5(5)
+caso_prueba3(5)
