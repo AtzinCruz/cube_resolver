@@ -40,5 +40,4 @@ class Heuristics:
                 for j in range(3):
                     if cara_actual[i][j] == estado_resuelto[i][j]:
                         bloques_correctos += 1
-        return bloques_correctos
-        pass
+        return bloques_correctos * -1

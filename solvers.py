@@ -52,7 +52,7 @@ class Solver:
         priority_queue = []
         
         # Invertir el orden de los valores de heurística para que los mayores sean extraídos primero
-        heapq.heappush(priority_queue, (-start_node.value_heuristic, start_node))
+        heapq.heappush(priority_queue, (start_node.value_heuristic, start_node))
 
         while priority_queue:
             current_node = heapq.heappop(priority_queue)[1]
@@ -70,8 +70,7 @@ class Solver:
                 neighbor_node.calculate_heuristic(heuristic)
 
                 if neighbor_node not in visited:
-                    # Invertir el signo de la heurística para que los mayores sean extraídos primero
-                    heapq.heappush(priority_queue, (-neighbor_node.value_heuristic, neighbor_node))
+                    heapq.heappush(priority_queue, (neighbor_node.value_heuristic, neighbor_node))
                     visited.add(neighbor_node)
         return False
 
