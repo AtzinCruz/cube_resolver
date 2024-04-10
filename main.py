@@ -86,4 +86,4 @@ def caso_prueba5(mov):
         print("No solution")
 
 
-caso_prueba3(5)
+caso_prueba5(2)
