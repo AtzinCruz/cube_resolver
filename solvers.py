@@ -40,7 +40,7 @@ class Solver:
 
         return False
     
-
+    #BFS with heuristics
     def bfs_h(self, heuristic):
         start_node = Nodeh(copy.deepcopy(self.cube.cubo))
         target_node_configuration = copy.deepcopy(self.cube.cubo_resuelto)

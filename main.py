@@ -23,6 +23,8 @@ def shuffle_cube(cube, num_moves=20):
         moves += move
     return moves
 
+#Manual moves
+
 def caso_prueba1():
     cubo = Cube()
     imprimir_cubo(cubo.cubo)
@@ -31,6 +33,7 @@ def caso_prueba1():
     print('After movements:')
     imprimir_cubo(cubo.cubo)
 
+#BFS 
 def caso_prueba2(mov):
     cubo = Cube()
     imprimir_cubo(cubo.cubo)
@@ -44,6 +47,7 @@ def caso_prueba2(mov):
     else:
         print('No se ha encontrado solución')
 
+#BFS_H
 def caso_prueba3(mov):
     heuristic = Heuristics.esquinas_correctas
     cubo = Cube()
@@ -58,6 +62,7 @@ def caso_prueba3(mov):
     else:
         print('No se ha encontrado solución')
 
+#A*
 def caso_prueba4(mov):
     heuristics = Heuristics.esquinas_correctas
     cubo = Cube()
@@ -73,7 +78,7 @@ def caso_prueba4(mov):
     else:
         print("No solution")
 
-
+#iterative A*
 def caso_prueba5(mov):
     heuristics = Heuristics.bloques_correctos
     cubo = Cube()
