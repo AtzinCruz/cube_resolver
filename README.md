@@ -11,10 +11,11 @@ The Rubik's Cube Solver consists of multiple Python classes that represent the R
 - `Heuristics`: Defines different heuristic functions used to estimate the cost of reaching the goal state, such as the Manhattan distance and the number of correctly positioned blocks or corners.
 
 ## Necessary libraries
+```python
 from cube import Cube
 from solver import Solver
 from heuristics import Heuristics
-
+```
 
 ## Usage
 
