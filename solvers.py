@@ -41,8 +41,6 @@ class Solver:
 
         return False
     
-    #BFS with heuristcs
-    import heapq
 
     def bfs_h(self, heuristic):
         cube = self.cube
@@ -51,7 +49,6 @@ class Solver:
         visited = set()
         priority_queue = []
         
-        # Invertir el orden de los valores de heurística para que los mayores sean extraídos primero
         heapq.heappush(priority_queue, (start_node.value_heuristic, start_node))
 
         while priority_queue:
