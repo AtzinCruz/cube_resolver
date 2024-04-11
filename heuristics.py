@@ -9,16 +9,6 @@ class Heuristics:
             [[5, 5, 5], [5, 5, 5], [5, 5, 5]],  # Cara 5 - Red
             [[6, 6, 6], [6, 6, 6], [6, 6, 6]]   # Cara 6 - Green
         ]
-    esquinas_resueltas = [
-        [[1, 3, 1], [5, 1, 1], [3, 1, 1]],  # Esquina 1
-        [[1, 3, 3], [4, 1, 1], [3, 1, 3]],  # Esquina 2
-        [[1, 1, 3], [4, 1, 3], [2, 1, 1]],  # Esquina 3
-        [[1, 1, 1], [5, 1, 3], [2, 1, 3]],  # Esquina 4
-        [[6, 3, 1], [5, 3, 3], [3, 3, 1]],  # Esquina 5
-        [[6, 3, 3], [4, 3, 1], [3, 3, 3]],  # Esquina 6
-        [[6, 1, 3], [4, 3, 3], [2, 3, 1]],  # Esquina 7
-        [[6, 1, 1], [5, 3, 1], [2, 3, 3]],  # Esquina 8
-    ]
 
     @staticmethod
     def capas_resueltas(cubo):
@@ -36,6 +26,7 @@ class Heuristics:
     
     @staticmethod
     def bloques_correctos(cubo):
+        #Distance between the state and the solved state
         bloques_correctos = 0
         for cara_actual, estado_resuelto in zip(cubo, Heuristics.estados_resueltos):
             for i in range(3):
@@ -45,6 +36,7 @@ class Heuristics:
         return bloques_correctos * -1
     
     @staticmethod
+    #Distance between the correct position and the position on the matrix
     def Manhattan_distance(cube):
         total_distance = 0
         for face_idx, face in enumerate(cube):
@@ -59,6 +51,7 @@ class Heuristics:
     
     
     @staticmethod
+    #Check if the corners are in the correct spot
     def esquinas_correctas(cubo):
         sum = 0
         for cara_actual, estado_resuelto in zip(cubo, Heuristics.estados_resueltos):
