@@ -12,9 +12,11 @@ The Rubik's Cube Solver consists of multiple Python classes that represent the R
 
 ## Necessary libraries
 ```python
-from cube import Cube
-from solver import Solver
-from heuristics import Heuristics
+import copy
+from collections import deque
+from queue import PriorityQueue
+import random
+import time
 ```
 
 ## Usage
