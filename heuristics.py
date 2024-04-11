@@ -26,18 +26,18 @@ class Heuristics:
     @staticmethod
     def bloques_correctos(cubo):
         #Solved cube
-        estados_resueltos = [
-            [[1, 1, 1], [1, 1, 1], [1, 1, 1]],  # Cara 1 - Yellow
-            [[2, 2, 2], [2, 2, 2], [2, 2, 2]],  # Cara 2 - White
-            [[3, 3, 3], [3, 3, 3], [3, 3, 3]],  # Cara 3 - Orange
-            [[4, 4, 4], [4, 4, 4], [4, 4, 4]],  # Cara 4 - Blue
-            [[5, 5, 5], [5, 5, 5], [5, 5, 5]],  # Cara 5 - Red
-            [[6, 6, 6], [6, 6, 6], [6, 6, 6]]   # Cara 6 - Green
+        estado_resuelto = [
+            [[1, 1, 1], [1, 1, 1], [1, 1, 1]],  # Cara 1 - Amarillo
+            [[2, 2, 2], [2, 2, 2], [2, 2, 2]],  # Cara 2 - Blanco
+            [[3, 3, 3], [3, 3, 3], [3, 3, 3]],  # Cara 3 - Naranja
+            [[4, 4, 4], [4, 4, 4], [4, 4, 4]],  # Cara 4 - Azul
+            [[5, 5, 5], [5, 5, 5], [5, 5, 5]],  # Cara 5 - Rojo
+            [[6, 6, 6], [6, 6, 6], [6, 6, 6]]   # Cara 6 - Verde
         ]
-        bloques_correctos = 0
-        for cara_actual, estado_resuelto in zip(cubo, estados_resueltos):
-            for i in range(3):
-                for j in range(3):
-                    if cara_actual[i][j] == estado_resuelto[i][j]:
-                        bloques_correctos += 1
-        return bloques_correctos * -1
+        
+        colores_correctos = 0
+        for cara_actual, estado_resuelto_cara in zip(cubo, estado_resuelto):
+            if cara_actual == estado_resuelto_cara:
+                colores_correctos += 9 
+        
+        return colores_correctos
