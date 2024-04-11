@@ -1,7 +1,6 @@
 from collections import deque
 import copy
 from nodes import Nodeh, Node, NodeAStar
-import heapq
 from queue import PriorityQueue
 from cube import Cube
 
@@ -43,33 +42,31 @@ class Solver:
     
 
     def bfs_h(self, heuristic):
-        cube = self.cube
-        start_node = Nodeh(copy.deepcopy(cube.cubo))
-        goal_node = Node(copy.deepcopy(cube.cubo_resuelto))
+        start_node = Nodeh(copy.deepcopy(self.cube.cubo))
+        target_node_configuration = copy.deepcopy(self.cube.cubo_resuelto)
+        pq = PriorityQueue()
         visited = set()
-        priority_queue = []
-        
-        heapq.heappush(priority_queue, (start_node.value_heuristic, start_node))
+        pq.put(start_node)
 
-        while priority_queue:
-            current_node = heapq.heappop(priority_queue)[1]
-            if current_node.cube == goal_node.cube:
-                return True, current_node.path
+        while not pq.empty():
+            current_cube : Nodeh = pq.get()
+            if current_cube.cube == target_node_configuration:
+                return True, current_cube.path
             
-            visited.add(current_node)
-            
-            for move in cube.movements.keys():
-                new_cube_state = copy.deepcopy(current_node.cube)
-                cube.cubo = new_cube_state
-                cube.move(move)
-                neighbor_node = Nodeh(cube.cubo)
-                neighbor_node.path = current_node.path + [move]
+            if current_cube in visited:
+                continue
+
+            visited.add(current_cube)
+            for move in self.cube.movements.keys():
+                next_cube = copy.deepcopy(current_cube.cube)
+                self.cube.cubo = next_cube
+                self.cube.move(move)
+                neighbor_node = Nodeh(self.cube.cubo)  
+                neighbor_node.path = current_cube.path + [move]
                 neighbor_node.calculate_heuristic(heuristic)
+                pq.put(neighbor_node)
 
-                if neighbor_node not in visited:
-                    heapq.heappush(priority_queue, (neighbor_node.value_heuristic, neighbor_node))
-                    visited.add(neighbor_node)
-        return False
+        return False, None
 
 
     #A star

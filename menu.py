@@ -84,11 +84,14 @@ def select_heuristic(cubo, use_a_star, iterative=False):
     print("Selecciona una heurística:")
     print("1. Bloques correctos")
     print("2. Capas resueltas")
+    print("3. Esquinas resueltas")
     choice = input("Elige una opción: ")
     if choice == '1':
         heuristic = Heuristics.bloques_correctos
     elif choice == '2':
         heuristic = Heuristics.capas_resueltas
+    elif choice == '3':
+        heuristic = Heuristics.esquinas_correctas
     else:
         print("Opción no válida. Inténtalo de nuevo.")
         select_heuristic(cubo, use_a_star, iterative)

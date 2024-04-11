@@ -45,7 +45,7 @@ def caso_prueba2(mov):
         print('No se ha encontrado solución')
 
 def caso_prueba3(mov):
-    heuristic = Heuristics.bloques_correctos
+    heuristic = Heuristics.esquinas_correctas
     cubo = Cube()
     imprimir_cubo(cubo.cubo)
     print(shuffle_cube(cubo, mov))
@@ -59,7 +59,7 @@ def caso_prueba3(mov):
         print('No se ha encontrado solución')
 
 def caso_prueba4(mov):
-    heuristics = Heuristics.capas_resueltas
+    heuristics = Heuristics.esquinas_correctas
     cubo = Cube()
     imprimir_cubo(cubo.cubo)
     print(shuffle_cube(cubo, mov))
@@ -69,12 +69,13 @@ def caso_prueba4(mov):
     path = solver.A_star(heuristics)
     if path:
         print(path)
+        return len(path)
     else:
         print("No solution")
 
 
 def caso_prueba5(mov):
-    heuristics = Heuristics.Manhattan_distance
+    heuristics = Heuristics.bloques_correctos
     cubo = Cube()
     imprimir_cubo(cubo.cubo)
     print(shuffle_cube(cubo, mov))
@@ -84,14 +85,18 @@ def caso_prueba5(mov):
     path = solver.iterative_deepening_A_star(heuristics)
     if path:
         print(path)
+        return len(path)
     else:
         print("No solution")
+        return 0
 
-time_start = time.time()
-caso_prueba5(5)
 
+times = []
 for _ in range(21):
     start_time = time.time()
-    caso_prueba2(5)
+    caso_prueba3(3)
     execution_time = time.time() - start_time
     print(execution_time)
+    times.append(execution_time)
+print(times)
+
