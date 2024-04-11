@@ -1,3 +1,4 @@
+import time
 import random
 from cube import Cube
 from solvers import Solver
@@ -89,4 +90,8 @@ def caso_prueba5(mov):
 time_start = time.time()
 caso_prueba5(5)
 
-print(f"Tiempo execucion {time.time() - time_start} s")
+for _ in range(21):
+    start_time = time.time()
+    caso_prueba2(5)
+    execution_time = time.time() - start_time
+    print(execution_time)

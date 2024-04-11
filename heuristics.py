@@ -44,7 +44,7 @@ class Heuristics:
                     if color != Heuristics.estados_resueltos[face_idx][row_idx][col_idx]:
                         # Calcular la distancia de Manhattan para la pieza actual
                         goal_color = Heuristics.estados_resueltos[face_idx][row_idx][col_idx]
-                        distance = abs(face_idx - goal_color) + abs(row_idx - row_idx) + abs(col_idx - col_idx)
+                        distance = abs(face_idx - Heuristics.estados_resueltosv[face_idx][row_idx][0]) + abs(row_idx - Heuristics.estados_resueltos[face_idx][row_idx][1]) + abs(col_idx - Heuristics.estados_resueltos[face_idx][row_idx][2])
                         total_distance += distance
         
         return total_distance
