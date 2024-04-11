@@ -2,6 +2,7 @@ import random
 from cube import Cube
 from solvers import Solver
 from heuristics import Heuristics
+import time
 
 #Print cube in matrix form
 def imprimir_cubo(cubo):
@@ -72,7 +73,7 @@ def caso_prueba4(mov):
 
 
 def caso_prueba5(mov):
-    heuristics = Heuristics.capas_resueltas
+    heuristics = Heuristics.Manhattan_distance
     cubo = Cube()
     imprimir_cubo(cubo.cubo)
     print(shuffle_cube(cubo, mov))
@@ -85,5 +86,7 @@ def caso_prueba5(mov):
     else:
         print("No solution")
 
+time_start = time.time()
+caso_prueba5(5)
 
-caso_prueba3(5)
+print(f"Tiempo execucion {time.time() - time_start} s")

@@ -109,10 +109,10 @@ class Solver:
         start_node = NodeAStar(copy.deepcopy(self.cube.cubo))
         end_configuration = self.cube.cubo_resuelto
         start_node.calculate_heuristic(heuristic)
-        bound = start_node.value_heuristic
+        bound = start_node.distance
         path = [start_node]
         while True:
-            t = self.__search(path, 0, bound, heuristic, end_configuration)
+            t = self.__search(path, bound, heuristic, end_configuration)
             if t == True:
                 return self.path
             if t == Solver.INF:
@@ -120,10 +120,9 @@ class Solver:
             bound = t
 
             
-    def __search(self, path, g, bound, heuristic, end_configuration):
+    def __search(self, path, bound, heuristic, end_configuration):
         path_f = path
         node: NodeAStar = path_f[-1]
-        node.calculate_heuristic(heuristic)
         f = node.distance + node.value_heuristic
         if f > bound:
             return f
@@ -134,7 +133,7 @@ class Solver:
         for succ in self.__sucessors(node, heuristic):
             if succ not in path:
                 path_f.append(succ)
-                t = self.__search(path, node.distance + node.value_heuristic + 1, bound, heuristic, end_configuration)
+                t = self.__search(path, bound, heuristic, end_configuration)
                 if t == True:
                     return True
                 if t < min:
