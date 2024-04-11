@@ -1,3 +1,4 @@
+import time
 import random
 from cube import Cube
 from solvers import Solver
@@ -86,4 +87,8 @@ def caso_prueba5(mov):
         print("No solution")
 
 
-caso_prueba5(2)
+for _ in range(21):
+    start_time = time.time()
+    caso_prueba2(5)
+    execution_time = time.time() - start_time
+    print(execution_time)
